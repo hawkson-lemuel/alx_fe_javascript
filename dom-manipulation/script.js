@@ -9,8 +9,21 @@ const quotes = [
   // Function to display a random quote
   function showRandomQuote() {
     const quoteDisplay = document.getElementById('quoteDisplay');
+    
+    // Clear any previous quote
+    quoteDisplay.innerHTML = '';
+  
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    quoteDisplay.innerHTML = `<p>${randomQuote.text}</p><p><em>- ${randomQuote.category}</em></p>`;
+    
+    const quoteText = document.createElement('p');
+    quoteText.textContent = randomQuote.text;
+    
+    const quoteCategory = document.createElement('p');
+    quoteCategory.textContent = `- ${randomQuote.category}`;
+    quoteCategory.style.fontStyle = 'italic';
+    
+    quoteDisplay.appendChild(quoteText);
+    quoteDisplay.appendChild(quoteCategory);
   }
   
   // Function to add a new quote
