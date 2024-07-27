@@ -14,7 +14,7 @@ const quotes = [
   }
   
   // Function to add a new quote
-  function addQuote() {
+  function createAddQuoteForm() {
     const newQuoteText = document.getElementById('newQuoteText').value;
     const newQuoteCategory = document.getElementById('newQuoteCategory').value;
   
@@ -30,5 +30,5 @@ const quotes = [
   
   // Event listeners for buttons
   document.getElementById('newQuote').addEventListener('click', showRandomQuote);
-  document.getElementById('addQuoteButton').addEventListener('click', addQuote);
+  document.getElementById('addQuoteButton').addEventListener('click', createAddQuoteForm);
   
