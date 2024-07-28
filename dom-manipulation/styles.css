@@ -52,11 +52,40 @@ input[type="file"] {
   margin: 10px 0;
 }
 
-#notification {
+.notification {
   display: none;
   background: #ffcc00;
   padding: 10px;
   margin: 10px 0;
+}
+
+.wrapper {
+  padding: 20px 0 50px 0;
+}
+
+.category-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.category-filter {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.button-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.form-container {
+  background-color: #edeaea;
+  padding: 30px;
+  border-radius: 5px;
 }
 
 @media (max-width: 600px) {

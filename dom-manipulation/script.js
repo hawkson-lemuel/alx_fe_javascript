@@ -134,21 +134,24 @@ async function postQuoteToServer(quote) {
   }
 }
 
+// Function to sync quotes with the server
+async function syncQuotes() {
+  const serverQuotes = await fetchQuotesFromServer();
+  const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+
+  // Check for conflicts and merge quotes
+  const mergedQuotes = mergeQuotes(localQuotes, serverQuotes);
+  localStorage.setItem('quotes', JSON.stringify(mergedQuotes));
+
+  // Notify user if new quotes are added
+  if (serverQuotes.length > localQuotes.length) {
+    showNotification('New quotes have been added from the server.');
+  }
+}
+
 // Start periodic fetching
 function startPeriodicFetching(interval = 60000) { // Fetch every minute
-  setInterval(async () => {
-    const serverQuotes = await fetchQuotesFromServer();
-    const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
-
-    // Check for conflicts and merge quotes
-    const mergedQuotes = mergeQuotes(localQuotes, serverQuotes);
-    localStorage.setItem('quotes', JSON.stringify(mergedQuotes));
-
-    // Notify user if new quotes are added
-    if (serverQuotes.length > localQuotes.length) {
-      showNotification('New quotes have been added from the server.');
-    }
-  }, interval);
+  setInterval(syncQuotes, interval);
 }
 
 // Merge quotes with conflict resolution

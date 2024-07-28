@@ -7,22 +7,22 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="notification" style="display: none; background: #ffcc00; padding: 10px; margin: 10px 0;"></div>  
+  <div id="notification" class="notification"></div>  
   <h1>Dynamic Quote Generator</h1>
-  <div class="wrapper" style="padding:20px 0px 50px 0px">
-    <div style="display:flex;flex-direction:row; align-items: center;">
+  <div class="wrapper">
+    <div class="category-row">
       <label>Category</label>
-      <select style="margin-left:10px;padding:5px 10px;border-radius: 5px;" id="categoryFilter" onchange="filterQuotes()">
+      <select id="categoryFilter" class="category-filter" onchange="filterQuotes()">
         <option value="all">All Categories</option>
       </select>
     </div>
     <div id="quoteDisplay"></div>
-    <div style="width:100%;display: flex;flex-direction: row;justify-content: center;">
+    <div class="button-row">
       <button id="newQuote">Show New Quote</button>
     </div>
   </div>
 
-  <div style="background-color: #edeaea;padding: 30px;border-radius: 5px;">
+  <div class="form-container">
     <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
     <button id="addQuoteButton">Add Quote</button>
