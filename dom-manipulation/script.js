@@ -11,24 +11,53 @@ function saveQuotes() {
   localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
+// Function to populate category dropdown
+function populateCategories() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  categoryFilter.innerHTML = '<option value="all">All Categories</option>';
+  const categories = [...new Set(quotes.map(quote => quote.category))];
+  categories.forEach(category => {
+    const option = document.createElement('option');
+    option.value = category;
+    option.textContent = category;
+    categoryFilter.appendChild(option);
+  });
+  const lastSelectedCategory = localStorage.getItem('selectedCategory');
+  if (lastSelectedCategory) {
+    categoryFilter.value = lastSelectedCategory;
+  }
+}
+
+// Function to display quotes based on selected category
+function filterQuotes() {
+  const selectedCategory = document.getElementById('categoryFilter').value;
+  localStorage.setItem('selectedCategory', selectedCategory);
+  const filteredQuotes = selectedCategory === 'all' ? quotes : quotes.filter(quote => quote.category === selectedCategory);
+  displayQuotes(filteredQuotes);
+}
+
+// Function to display quotes
+function displayQuotes(quotesToDisplay) {
+  const quoteDisplay = document.getElementById('quoteDisplay');
+  quoteDisplay.innerHTML = '';
+  quotesToDisplay.forEach(quote => {
+    const quoteText = document.createElement('p');
+    quoteText.textContent = quote.text;
+    
+    const quoteCategory = document.createElement('p');
+    quoteCategory.textContent = `- ${quote.category}`;
+    quoteCategory.style.fontStyle = 'italic';
+    
+    quoteDisplay.appendChild(quoteText);
+    quoteDisplay.appendChild(quoteCategory);
+  });
+}
+
 // Function to display a random quote
 function showRandomQuote() {
-  const quoteDisplay = document.getElementById('quoteDisplay');
-  
-  // Clear any previous quote
-  quoteDisplay.innerHTML = '';
-
-  const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-  
-  const quoteText = document.createElement('p');
-  quoteText.textContent = randomQuote.text;
-  
-  const quoteCategory = document.createElement('p');
-  quoteCategory.textContent = `- ${randomQuote.category}`;
-  quoteCategory.style.fontStyle = 'italic';
-  
-  quoteDisplay.appendChild(quoteText);
-  quoteDisplay.appendChild(quoteCategory);
+  const filteredQuotes = document.getElementById('categoryFilter').value === 'all' ? quotes : quotes.filter(quote => quote.category === document.getElementById('categoryFilter').value);
+  const randomQuote = filteredQuotes[Math.floor(Math.random() * filteredQuotes.length)];
+  displayQuotes([randomQuote]);
   
   // Save the last viewed quote to session storage
   sessionStorage.setItem('lastViewedQuote', JSON.stringify(randomQuote));
@@ -42,6 +71,7 @@ function createAddQuoteForm() {
   if (newQuoteText && newQuoteCategory) {
     quotes.push({ text: newQuoteText, category: newQuoteCategory });
     saveQuotes();
+    populateCategories();
     document.getElementById('newQuoteText').value = '';
     document.getElementById('newQuoteCategory').value = '';
     alert('New quote added successfully!');
@@ -68,6 +98,7 @@ function importFromJsonFile(event) {
     const importedQuotes = JSON.parse(event.target.result);
     quotes.push(...importedQuotes);
     saveQuotes();
+    populateCategories();
     alert('Quotes imported successfully!');
   };
   fileReader.readAsText(event.target.files[0]);
@@ -75,20 +106,11 @@ function importFromJsonFile(event) {
 
 // Load the last viewed quote from session storage
 window.onload = function() {
+  populateCategories();
+  filterQuotes();
   const lastViewedQuote = JSON.parse(sessionStorage.getItem('lastViewedQuote'));
   if (lastViewedQuote) {
-    const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.innerHTML = '';
-
-    const quoteText = document.createElement('p');
-    quoteText.textContent = lastViewedQuote.text;
-    
-    const quoteCategory = document.createElement('p');
-    quoteCategory.textContent = `- ${lastViewedQuote.category}`;
-    quoteCategory.style.fontStyle = 'italic';
-    
-    quoteDisplay.appendChild(quoteText);
-    quoteDisplay.appendChild(quoteCategory);
+    displayQuotes([lastViewedQuote]);
   }
 }
 
