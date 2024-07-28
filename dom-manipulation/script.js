@@ -147,6 +147,8 @@ async function syncQuotes() {
   if (serverQuotes.length > localQuotes.length) {
     showNotification('New quotes have been added from the server.');
   }
+
+  showNotification("Quotes synced with server!");
 }
 
 // Start periodic fetching
