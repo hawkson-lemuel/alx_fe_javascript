@@ -52,6 +52,13 @@ input[type="file"] {
   margin: 10px 0;
 }
 
+#notification {
+  display: none;
+  background: #ffcc00;
+  padding: 10px;
+  margin: 10px 0;
+}
+
 @media (max-width: 600px) {
   body {
     padding: 10px;
